@@ -8,6 +8,23 @@ export class MarsRover {
         "W": [-1, 0],
     };
 
+    private steering = {
+        "L": -1,
+        "R": 1,
+    }
+
+    private currentDirection = 'N';
+
+    private directions = ["N", "E", "S", "W"];
+
+    private move( instruction: string ) {
+        // TODO: instruction must be L, R or M
+
+        // if instruction = L or R -> rotate from current facing by traversing the array +/- 1
+        // if 0 - 1 -> then go to arr.len
+        // if arr.len + 1 -> then go to arr[0]
+    }
+
     constructor( input: string ) {
         // parse the input
 
