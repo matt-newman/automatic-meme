@@ -1,8 +1,21 @@
 export class MarsRover {
-    private someData = [];
+    private input = '';
+    
+    private moves = {
+        "N": [0, 1],
+        "E": [1, 0],
+        "S": [0, -1],
+        "W": [-1, 0],
+    };
 
-    constructor(parameters) {
+    constructor( input: string ) {
+        // parse the input
+
         return this;
+    }
+
+    private parseInput( input: string ) {
+        return {};
     }
 
     /**
@@ -11,6 +24,8 @@ export class MarsRover {
     public doThing() {
         return 'result';
     }
+
+
 
     // TODO: controls: 
     // `L`, `R` and `M` -> left, right and move forward 1 space (at current heading)
