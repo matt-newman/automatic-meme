@@ -17,12 +17,19 @@ export class MarsRover {
 
     private directions = ["N", "E", "S", "W"];
 
-    private move( instruction: string ) {
-        // TODO: instruction must be L, R or M
+    private parseInput( input: string ) {
+        return {};
+    }
 
-        // if instruction = L or R -> rotate from current facing by traversing the array +/- 1
+    private performAction( action: string ) {
+        // TODO: action must be L, R or M
+
+        // if action = L or R -> rotate from current facing by traversing the array +/- 1
         // if 0 - 1 -> then go to arr.len
         // if arr.len + 1 -> then go to arr[0]
+
+        // if action = M
+        // then move in the current direction
     }
 
     constructor( input: string ) {
@@ -31,18 +38,12 @@ export class MarsRover {
         return this;
     }
 
-    private parseInput( input: string ) {
-        return {};
-    }
-
     /**
      * doThing
      */
     public doThing() {
         return 'result';
     }
-
-
 
     // TODO: controls: 
     // `L`, `R` and `M` -> left, right and move forward 1 space (at current heading)
