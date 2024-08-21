@@ -152,7 +152,7 @@ describe("MarsRover", () => {
                 position = [0, 0];
                 direction = 'N';
             })
-            it("should face the correct direction after turning left any number of times after facing a given direction", () => {
+            it("should face the correct direction after turning left any number of times", () => {
                 let expected
                 instructions = 'LL';
                 input = { position, direction, instructions };
@@ -176,6 +176,33 @@ describe("MarsRover", () => {
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
                 expected = { position, direction: 'W' };
+                expect(rover.followInstructions()).toEqual(expected);
+            });
+
+            it("should face the correct direction after turning right any number of times", () => {
+                let expected
+                instructions = 'RR';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position, direction: 'S' };
+                expect(rover.followInstructions()).toEqual(expected);
+
+                instructions = 'RRR';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position, direction: 'W' };
+                expect(rover.followInstructions()).toEqual(expected);
+
+                instructions = 'RRRR';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position, direction: 'N' };
+                expect(rover.followInstructions()).toEqual(expected);
+
+                instructions = 'RRRRR';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position, direction: 'E' };
                 expect(rover.followInstructions()).toEqual(expected);
             });
         });
