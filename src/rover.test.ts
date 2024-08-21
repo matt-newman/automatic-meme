@@ -18,13 +18,19 @@ Expected Output:
 */
 
 describe("MarsRover", () => {
-    let grid: any[] = [['',''],['','']]; // 2 x 2
+    let grid: any[] = [['', ''], ['', '']]; // 2 x 2
     let position: [number, number] = [0, 0];
     let direction = 'N';
     let instructions = '';
     let input: Rover = { position, direction, instructions };
 
     describe("setup", () => {
+        beforeEach(() => {
+            grid = [['', ''], ['', '']]; // 2 x 2
+            direction = 'N';
+            instructions = '';
+        })
+
         it("should allow the properties of the rover to be set", () => {
             position = [1, 1];
             input = { position, direction, instructions };
@@ -42,7 +48,7 @@ describe("MarsRover", () => {
 
             let rover = new MarsRover(grid, input);
             const result = rover.getStatus();
-            const expected = { "position": [0,0], "direction": "N" };
+            const expected = { "position": [0, 0], "direction": "N" };
 
             expect(result).toEqual(expected);
         });
@@ -230,7 +236,7 @@ describe("MarsRover", () => {
             let rover;
 
             beforeEach(() => {
-                grid = [['',''],['','']]; // 2 x 2
+                grid = [['', ''], ['', '']]; // 2 x 2
                 direction = 'N';
             })
 
@@ -241,7 +247,7 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [0,0], direction };
+                expected = { position: [0, 0], direction };
                 expect(rover.followInstructions()).toEqual(expected);
             });
 
@@ -252,7 +258,7 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [1,0], direction };
+                expected = { position: [1, 0], direction };
                 expect(rover.followInstructions()).toEqual(expected);
             });
 
@@ -263,7 +269,7 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [0,1], direction };
+                expected = { position: [0, 1], direction };
                 expect(rover.followInstructions()).toEqual(expected);
             });
 
@@ -274,7 +280,7 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [0,1], direction };
+                expected = { position: [0, 1], direction };
                 expect(rover.followInstructions()).toEqual(expected);
             });
 
@@ -285,7 +291,7 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [0,0], direction };
+                expected = { position: [0, 0], direction };
                 expect(rover.followInstructions()).toEqual(expected);
 
                 position = [0, 1];
@@ -293,7 +299,7 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [0,1], direction };
+                expected = { position: [0, 1], direction };
                 expect(rover.followInstructions()).toEqual(expected);
 
                 position = [1, 1];
@@ -301,7 +307,7 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [1,1], direction };
+                expected = { position: [1, 1], direction };
                 expect(rover.followInstructions()).toEqual(expected);
 
                 position = [0, 1];
@@ -309,9 +315,62 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [0,1], direction };
+                expected = { position: [0, 1], direction };
                 expect(rover.followInstructions()).toEqual(expected);
             });
+        });
+    });
+
+    describe("simple test", () => {
+        beforeEach(() => {
+            const size = 2;
+            grid = new Array(size).fill(new Array(size).fill('')); // 2x2
+        })
+        
+        it("should return the correct output for a basic set of operations", () => {
+            position = [0,0];
+            direction = 'E';
+            instructions = 'MRMRM'; // 1,0 -> S -> 1,1 -> W -> 0,1
+            input = { position, direction, instructions };
+
+            let rover = new MarsRover(grid, input);
+            const result = rover.followInstructions();
+            const expected = { "position": [0,1], "direction": "W" };
+
+            expect(result).toEqual(expected);
+        });
+    });
+
+    describe("full test", () => {
+        beforeEach(() => {
+            const size = 5;
+            grid = new Array(size).fill(new Array(size).fill('')); // 5 x 5
+        })
+
+        it("should return the correct status values for the first rover", () => {
+            position = [1, 2];
+            direction = 'N';
+            instructions = 'LMLMLMLMM';
+            input = { position, direction, instructions };
+
+            let rover = new MarsRover(grid, input);
+            const result = rover.followInstructions();
+            const expected = { "position": [1, 3], "direction": "N" };
+
+            expect(result).toEqual(expected);
+        });
+
+        it("should return the correct status values for the second rover", () => {
+            position = [3, 3];
+            direction = 'E';
+            instructions = 'MMRMMRMRRM';
+            input = { position, direction, instructions };
+
+            let rover = new MarsRover(grid, input);
+            const result = rover.followInstructions();
+            const expected = { "position": [5, 1], "direction": "E" };
+
+            expect(result).toEqual(expected);
         });
     });
 })
