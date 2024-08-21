@@ -328,14 +328,14 @@ describe("MarsRover", () => {
         })
         
         it("should return the correct output for a basic set of operations", () => {
-            position = [0,0];
+            position = [1,1];
             direction = 'E';
-            instructions = 'MRMRM'; // 1,0 -> S -> 1,1 -> W -> 0,1
+            instructions = 'MRMRM'; // 2,1 -> S -> 2,0 -> W -> 1,0
             input = { position, direction, instructions };
 
             let rover = new MarsRover(grid, input);
             const result = rover.followInstructions();
-            const expected = { "position": [0,1], "direction": "W" };
+            const expected = { "position": [1,0], "direction": "W" };
 
             expect(result).toEqual(expected);
         });

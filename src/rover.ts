@@ -35,8 +35,8 @@ export class MarsRover {
 
     private setGrid( grid: Array<any> ) {
         // TODO: check is array with no-zero length...
-        this.gridMaxWidth = grid[0].length - 1;
-        this.gridMaxHeight = grid.length - 1;
+        this.gridMaxWidth = grid[0].length;
+        this.gridMaxHeight = grid.length;
         this.grid = grid;
     }
 
@@ -109,7 +109,7 @@ export class MarsRover {
         // console.log( { x,y, newX, newY, currentX, currentY } );
 
         if ( newX < 0 || newY < 0 || newX > this.gridMaxWidth || newY > this.gridMaxHeight ) {
-            console.info('move bounced off permiter', { x,y,direction, grid: this.grid });
+            console.info('move bounced off permiter', { x, y, direction, newX, newY, grid: this.grid });
             return;
         }
 
