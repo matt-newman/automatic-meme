@@ -38,11 +38,13 @@ MMRMMRMRRM
             ],
             rovers: [
                 {
-                    position: { coords:[1,2], direction: 'N' },
+                    position: [1,2], 
+                    direction: 'N',
                     instructions: 'LMLMLMLMM'
                 },
                 {
-                    position: { coords:[3,3], direction: 'E' },
+                    position: [3,3], 
+                    direction: 'E',
                     instructions: 'MMRMMRMRRM'
                 },
             ],

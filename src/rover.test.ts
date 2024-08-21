@@ -20,10 +20,11 @@ Expected Output:
 describe("MarsRover", () => {
     let program: MarsRover;
     let grid: any[] = [];
-    let position = { coords: [0, 0], direction: 'N' };
+    let position = [0, 0];
+    let direction = 'N';
     let instructions = 'LMLMLMLMM';
 
-    let input: Rover = { position, instructions }
+    let input: Rover = { position, direction, instructions }
 
     // beforeAll(() => {
     //     program = new MarsRover(grid, position);
@@ -31,13 +32,14 @@ describe("MarsRover", () => {
 
     describe("instantiating", () => {
         it("should set the various properties", () => {
-            position = { coords: [0, 0], direction: 'N' };
+            position = [0, 0];
+            direction = 'N';
             instructions = 'LMLMLMLMM';
-            input = { position, instructions };
+            input = { position, direction, instructions };
 
             let rover = new MarsRover(grid, input);
             const result = rover.getStatus();
-            const expected = { "instructions": "LMLMLMLMM", "position": { "coords": [0, 0], "direction": "N" } };
+            const expected = { "instructions": "LMLMLMLMM", "position": [0, 0], "direction": "N" };
 
             expect(result).toEqual(expected)
         })

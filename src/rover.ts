@@ -1,12 +1,8 @@
 type Coord = [number, number];
 
-export type Position = {
-    coords: Coord;
-    direction: string;
-}
-
 export type Rover = {
-    position: Position;
+    position: Coord;
+    direction: string;
     instructions: string;
 }
 
@@ -23,8 +19,9 @@ export class MarsRover {
         "R": 1,
     }
 
-    private currentPosition: Position = { coords: [0,0], direction: 'N' }; // default
-    private instructions = '';
+    private currentPosition: Coord = [-1, -1]; // default
+    private currentDirection = ''; // default
+    private instructions = ''; 
 
     private directions = ["N", "E", "S", "W"];
 
@@ -42,13 +39,13 @@ export class MarsRover {
     private setPosition( coord: Coord ) {
         const [x,y] = coord;
         // TODO: check is within grid
-        this.currentPosition.coords[0] = x;
-        this.currentPosition.coords[1] = y;
+        this.currentPosition[0] = x;
+        this.currentPosition[1] = y;
     }
 
     private setDirection( direction: string ) {
         // TODO: check is valid direction
-        this.currentPosition.direction = direction;
+        this.currentDirection = direction;
     }
 
     private setInstructions( instructions: string ) {
@@ -56,10 +53,9 @@ export class MarsRover {
     }
 
     constructor(grid: Array<any>, rover: Rover) {
-        const { position, instructions } = rover;
-        const { coords, direction } = position;
+        const { position, direction, instructions } = rover;
         
-        this.setPosition(coords);
+        this.setPosition(position);
         this.setDirection(direction);
         this.setInstructions(instructions);
         return this;
@@ -68,6 +64,7 @@ export class MarsRover {
     public getStatus():Rover {
         return { 
             position: this.currentPosition,
+            direction: this.currentDirection,
             instructions: this.instructions,
         }
     }
