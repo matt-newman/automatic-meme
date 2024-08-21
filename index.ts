@@ -2,9 +2,9 @@ export class MarsRover {
     private input = '';
     
     private moves = {
-        "N": [0, 1],
+        "N": [0, -1],
         "E": [1, 0],
-        "S": [0, -1],
+        "S": [0, 1],
         "W": [-1, 0],
     };
 
@@ -17,8 +17,40 @@ export class MarsRover {
 
     private directions = ["N", "E", "S", "W"];
 
-    private parseInput( input: string ) {
-        return {};
+    public parseInput( input: string ) {
+        // grid
+        // rovers[]
+        if (!input) {
+            // throw error for invalid input
+            return;
+        }
+
+        const data = input.trim().split('\n');
+        const gridSize = data[0].split(' ').map(item => item * 1);
+
+        const width = gridSize[0];
+        const height = gridSize[1];
+
+        const gridRows = new Array(width).fill('')
+        const grid = new Array(height).fill(gridRows);
+
+        const rovers = [
+            {
+                start: data[1].split(' '),
+                instructions: data[2].split(''),
+            },
+            {
+                start: data[3].split(' '),
+                instructions: data[4].split(''),
+            }
+        ];
+        // coord
+        // instructions
+
+        return {
+            grid,
+            rovers,
+        };
     }
 
     private performAction( action: string ) {
@@ -43,6 +75,10 @@ export class MarsRover {
      */
     public doThing() {
         return 'result';
+    }
+
+    public placeRover() {
+
     }
 
     // TODO: controls: 
