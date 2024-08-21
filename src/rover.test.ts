@@ -18,16 +18,35 @@ Expected Output:
 */
 
 describe("MarsRover", () => {
-    let grid: any[] = [];
+    let grid: any[] = [[,],[,]]; // 2 x 2
     let position: [number, number] = [0, 0];
     let direction = 'N';
-    let instructions = 'LMLMLMLMM';
+    let instructions = '';
+    let input: Rover = { position, direction, instructions };
 
-    let input: Rover = { position, direction, instructions }
+    describe("setup", () => {
+        it("should allow the properties of the rover to be set", () => {
+            position = [1, 1];
+            input = { position, direction, instructions };
 
-    // beforeAll(() => {
-    //     program = new MarsRover(grid, position);
-    // });
+            let rover = new MarsRover(grid, input);
+            const result = rover.getStatus();
+            const expected = { "position": [1, 1], "direction": "N" };
+
+            expect(result).toEqual(expected);
+        });
+
+        it("should not allow an invalid position of the rover to be set", () => {
+            position = [2, 1];
+            input = { position, direction, instructions };
+
+            let rover = new MarsRover(grid, input);
+            const result = rover.getStatus();
+            const expected = { "position": [0,0], "direction": "N" };
+
+            expect(result).toEqual(expected);
+        });
+    });
 
     describe("getStatus", () => {
         it("should return the correct status values for the rover", () => {
@@ -211,18 +230,18 @@ describe("MarsRover", () => {
             let rover;
 
             beforeEach(() => {
-                grid = [[,],[,]];
-                position = [0, 0];
+                grid = [[,],[,]]; // 2x2
                 direction = 'N';
             })
 
             it("should move be able to move up 1 square when going north", () => {
                 let expected;
+                position = [0, 1];
                 direction = 'N';
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [0,1], direction };
+                expected = { position: [0,0], direction };
                 expect(rover.followInstructions()).toEqual(expected);
             });
         });

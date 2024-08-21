@@ -24,20 +24,30 @@ export class MarsRover {
         "R": 1,
     }
 
-    private grid: any[];
-    private currentPosition: Coord = [-1, -1]; // default
+    private grid!: any[];
+    private gridMaxWidth!: number;
+    private gridMaxHeight!: number;
+    private currentPosition: Coord = [0,0]; // default
     private currentDirection = ''; // default
     private instructions = ''; 
 
     private directions = ["N", "E", "S", "W"];
 
     private setGrid( grid: Array<any> ) {
+        // TODO: check is array with no-zero length...
+        this.gridMaxWidth = grid[0].length;
+        this.gridMaxHeight = grid.length;
         this.grid = grid;
     }
 
     private setPosition( coord: Coord ) {
         const [x,y] = coord;
-        // TODO: check is within grid
+
+        if ( x > this.gridMaxWidth || y > this.gridMaxHeight ) {
+            // console.warn('trying to set position outside of grid', { grid: this.grid, coord } );
+            return;
+        }
+
         this.currentPosition[0] = x;
         this.currentPosition[1] = y;
     }
@@ -87,7 +97,23 @@ export class MarsRover {
 
     // TODO: could make this public for testing, but really its class internals
     private move() {
-        // TODO: implement
+        const moves = this.moves;
+        const direction = this.currentDirection;
+        const [currentX, currentY] = this.currentPosition;
+        // todo: go in current direction 1 square
+        const [x,y] = moves[direction as keyof typeof moves]; // ludicrous type gymnastics imo
+
+        const newX = currentX + x;
+        const newY = currentY + y;
+
+        console.log( { x,y, newX, newY, currentX, currentY } );
+
+        if ( newX > this.gridMaxWidth || newY > this.gridMaxHeight ) {
+            console.info('move bounced off permiter', { x,y,direction, grid: this.grid });
+            return;
+        }
+
+        this.setPosition([newX,newY]);
     }
 
     constructor(grid: Array<any>, rover: Rover) {
