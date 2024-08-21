@@ -18,7 +18,7 @@ Expected Output:
 */
 
 describe("MarsRover", () => {
-    let grid: any[] = [[,],[,]]; // 2 x 2
+    let grid: any[] = [['',''],['','']]; // 2 x 2
     let position: [number, number] = [0, 0];
     let direction = 'N';
     let instructions = '';
@@ -230,7 +230,7 @@ describe("MarsRover", () => {
             let rover;
 
             beforeEach(() => {
-                grid = [[,],[,]]; // 2x2
+                grid = [['',''],['','']]; // 2 x 2
                 direction = 'N';
             })
 
@@ -238,6 +238,25 @@ describe("MarsRover", () => {
                 let expected;
                 position = [0, 1];
                 direction = 'N';
+                instructions = 'M';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position: [0,0], direction };
+                expect(rover.followInstructions()).toEqual(expected);
+            });
+
+            it("should not be able to move outside the grid", () => {
+                let expected;
+                position = [0, 0];
+                direction = 'N';
+                instructions = 'M';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position: [0,0], direction };
+                expect(rover.followInstructions()).toEqual(expected);
+
+                position = [0, 1];
+                direction = 'S';
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);

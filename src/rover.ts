@@ -35,15 +35,15 @@ export class MarsRover {
 
     private setGrid( grid: Array<any> ) {
         // TODO: check is array with no-zero length...
-        this.gridMaxWidth = grid[0].length;
-        this.gridMaxHeight = grid.length;
+        this.gridMaxWidth = grid[0].length - 1;
+        this.gridMaxHeight = grid.length - 1;
         this.grid = grid;
     }
 
     private setPosition( coord: Coord ) {
         const [x,y] = coord;
 
-        if ( x > this.gridMaxWidth || y > this.gridMaxHeight ) {
+        if ( x < 0 || y < 0 || x > this.gridMaxWidth || y > this.gridMaxHeight ) {
             // console.warn('trying to set position outside of grid', { grid: this.grid, coord } );
             return;
         }
@@ -108,7 +108,7 @@ export class MarsRover {
 
         console.log( { x,y, newX, newY, currentX, currentY } );
 
-        if ( newX > this.gridMaxWidth || newY > this.gridMaxHeight ) {
+        if ( newX < 0 || newY < 0 || newX > this.gridMaxWidth || newY > this.gridMaxHeight ) {
             console.info('move bounced off permiter', { x,y,direction, grid: this.grid });
             return;
         }
@@ -118,6 +118,8 @@ export class MarsRover {
 
     constructor(grid: Array<any>, rover: Rover) {
         const { position, direction, instructions } = rover;
+
+        console.log( 'setup', { grid, position, direction, instructions } );
         
         this.setGrid(grid);
         this.setPosition(position);
