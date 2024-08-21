@@ -18,8 +18,6 @@ Expected Output:
 */
 
 describe("ParseInput", () => {
-    let program: ParseInput;
-
     it("should return a structure for running the program", () => {
         const input =
             `
@@ -29,7 +27,7 @@ LMLMLMLMM
 3 3 E
 MMRMMRMRRM
 `
-        const result = new ParseInput(input);
+        const result = ParseInput.process(input);
         const expected = {
             grid: [
                 ['', '', '', '', ''], 

@@ -1,8 +1,5 @@
 export class ParseInput {
-    public grid!: any[];
-    public rovers!: any[];
-
-    constructor(input: string) {
+    static process(input: string) {
         if (!input) {
             // throw error for invalid input
             return;
@@ -15,25 +12,36 @@ export class ParseInput {
         const height = gridSize[1];
 
         const gridRows = new Array(width).fill('')
-        this.grid = new Array(height).fill(gridRows);
+        const grid = new Array(height).fill(gridRows);
 
-        // TODO: clean this up - loop over each pair of rows for rover
-        this.rovers = [
-            {
-                start: data[1].split(' '),
-                instructions: data[2].split(''),
-            },
-            {
-                start: data[3].split(' '),
-                instructions: data[4].split(''),
+        let inputIndex = 1;
+        let rovers = [];
+
+        const createRover = ( positionString: string, instructionsString: string ) => {
+            const position = positionString.split(' ');
+            const instructions = instructionsString.split('');
+            const x = parseInt(position[0]);
+            const y = parseInt(position[1]);
+            const direction = position[2];
+    
+            // TODO: check pos 1-3 exist
+            // TODO: do instructions exists... does it matter
+    
+            return {
+                position: { x, y, direction },
+                instructions: instructions,
             }
-        ];
-        // coord
-        // instructions
+        }
+
+        while( data[inputIndex + 1] ) {
+            const rover = createRover(data[inputIndex], data[inputIndex + 1]);
+            inputIndex += 2;
+            rovers.push( rover );
+        }
 
         return {
-            grid: this.grid,
-            rovers: this.rovers,
-        };
+            grid,
+            rovers,
+        }
     }
 }
