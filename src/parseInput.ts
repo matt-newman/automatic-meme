@@ -6,7 +6,7 @@ export class ParseInput {
         }
 
         const data = input.trim().split('\n');
-        const gridSize = data[0].split(' ').map(item => item * 1);
+        const gridSize = data[0].split(' ').map(item => parseInt(item, 10));
 
         const width = gridSize[0];
         const height = gridSize[1];
