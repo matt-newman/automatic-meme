@@ -94,5 +94,55 @@ describe("MarsRover", () => {
                 expect(result).toEqual(expected);
             });
         });
+
+        describe("turning right", () => {
+            beforeEach(()=>{
+                position = [0, 0];
+                instructions = 'R';
+            })
+            it("should face east after turning right from north", () => {        
+                direction = 'N';
+                input = { position, direction, instructions };
+    
+                let rover = new MarsRover(grid, input);
+                const result = rover.followInstructions();
+                const expected = { "position": [0, 0], "direction": "E" };
+    
+                expect(result).toEqual(expected);
+            });
+
+            it("should face north after turning right from west", () => {           
+                direction = 'W';
+                input = { position, direction, instructions };
+    
+                let rover = new MarsRover(grid, input);
+                const result = rover.followInstructions();
+                const expected = { "position": [0, 0], "direction": "N" };
+    
+                expect(result).toEqual(expected);
+            });
+
+            it("should face south after turning right from east", () => {           
+                direction = 'E';
+                input = { position, direction, instructions };
+    
+                let rover = new MarsRover(grid, input);
+                const result = rover.followInstructions();
+                const expected = { "position": [0, 0], "direction": "S" };
+    
+                expect(result).toEqual(expected);
+            });
+
+            it("should face west after turning right from south", () => {           
+                direction = 'S';
+                input = { position, direction, instructions };
+    
+                let rover = new MarsRover(grid, input);
+                const result = rover.followInstructions();
+                const expected = { "position": [0, 0], "direction": "W" };
+    
+                expect(result).toEqual(expected);
+            });
+        });
     });
 })
