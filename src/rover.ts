@@ -6,6 +6,11 @@ export type Rover = {
     instructions: string;
 }
 
+export type RoverStatus = {
+    position: Coord;
+    direction: string;
+}
+
 export class MarsRover {
     private moves = {
         "N": [0, -1],
@@ -19,22 +24,12 @@ export class MarsRover {
         "R": 1,
     }
 
+    private grid = [];
     private currentPosition: Coord = [-1, -1]; // default
     private currentDirection = ''; // default
     private instructions = ''; 
 
     private directions = ["N", "E", "S", "W"];
-
-    private performAction(action: string) {
-        // TODO: action must be L, R or M
-
-        // if action = L or R -> rotate from current facing by traversing the array +/- 1
-        // if 0 - 1 -> then go to arr.len
-        // if arr.len + 1 -> then go to arr[0]
-
-        // if action = M
-        // then move in the current direction
-    }
 
     private setPosition( coord: Coord ) {
         const [x,y] = coord;
@@ -61,12 +56,17 @@ export class MarsRover {
         return this;
     }
 
-    public getStatus():Rover {
+    public getStatus():RoverStatus {
         return { 
             position: this.currentPosition,
             direction: this.currentDirection,
-            instructions: this.instructions,
         }
+    }
+
+    public followInstructions():RoverStatus {
+
+
+        return this.getStatus();
     }
 
     // TODO: controls: 

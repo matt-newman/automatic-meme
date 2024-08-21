@@ -1,4 +1,4 @@
-import { MarsRover, Position, Rover } from './rover';
+import { MarsRover, Rover } from './rover';
 
 /*
 Test Input:
@@ -18,9 +18,8 @@ Expected Output:
 */
 
 describe("MarsRover", () => {
-    let program: MarsRover;
     let grid: any[] = [];
-    let position = [0, 0];
+    let position: [number, number] = [0, 0];
     let direction = 'N';
     let instructions = 'LMLMLMLMM';
 
@@ -30,8 +29,8 @@ describe("MarsRover", () => {
     //     program = new MarsRover(grid, position);
     // });
 
-    describe("instantiating", () => {
-        it("should set the various properties", () => {
+    describe("getStatus", () => {
+        it("should return the correct status values for the rover", () => {
             position = [0, 0];
             direction = 'N';
             instructions = 'LMLMLMLMM';
@@ -39,9 +38,24 @@ describe("MarsRover", () => {
 
             let rover = new MarsRover(grid, input);
             const result = rover.getStatus();
-            const expected = { "instructions": "LMLMLMLMM", "position": [0, 0], "direction": "N" };
+            const expected = { "position": [0, 0], "direction": "N" };
 
-            expect(result).toEqual(expected)
-        })
-    })
+            expect(result).toEqual(expected);
+        });
+    });
+
+    describe("followInstructions", () => {
+        it("should return the correct status values for the rover", () => {
+            position = [0, 0];
+            direction = 'N';
+            instructions = 'LMLMLMLMM';
+            input = { position, direction, instructions };
+
+            let rover = new MarsRover(grid, input);
+            const result = rover.followInstructions(); // returns getStatus() at the end            
+            const expected = { "position": [0, 0], "direction": "N" };
+
+            expect(result).toEqual(expected);
+        });
+    });
 })
