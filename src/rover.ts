@@ -106,10 +106,10 @@ export class MarsRover {
         const newX = currentX + x;
         const newY = currentY + y;
 
-        console.log( { x,y, newX, newY, currentX, currentY } );
+        // console.log( { x,y, newX, newY, currentX, currentY } );
 
         if ( newX < 0 || newY < 0 || newX > this.gridMaxWidth || newY > this.gridMaxHeight ) {
-            console.info('move bounced off permiter', { x,y,direction, grid: this.grid });
+            // console.info('move bounced off permiter', { x,y,direction, grid: this.grid });
             return;
         }
 
@@ -119,7 +119,7 @@ export class MarsRover {
     constructor(grid: Array<any>, rover: Rover) {
         const { position, direction, instructions } = rover;
 
-        console.log( 'setup', { grid, position, direction, instructions } );
+        // console.log( 'setup', { grid, position, direction, instructions } );
         
         this.setGrid(grid);
         this.setPosition(position);

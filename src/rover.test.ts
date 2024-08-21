@@ -234,7 +234,7 @@ describe("MarsRover", () => {
                 direction = 'N';
             })
 
-            it("should move be able to move up 1 square when going north", () => {
+            it("should be able to move up 1 square when going north", () => {
                 let expected;
                 position = [0, 1];
                 direction = 'N';
@@ -242,6 +242,39 @@ describe("MarsRover", () => {
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
                 expected = { position: [0,0], direction };
+                expect(rover.followInstructions()).toEqual(expected);
+            });
+
+            it("should be able to move right 1 square when going east", () => {
+                let expected;
+                position = [0, 0];
+                direction = 'E';
+                instructions = 'M';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position: [1,0], direction };
+                expect(rover.followInstructions()).toEqual(expected);
+            });
+
+            it("should be able to move down 1 square when going south", () => {
+                let expected;
+                position = [0, 0];
+                direction = 'S';
+                instructions = 'M';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position: [0,1], direction };
+                expect(rover.followInstructions()).toEqual(expected);
+            });
+
+            it("should be able to move left 1 square when going west", () => {
+                let expected;
+                position = [1, 1];
+                direction = 'W';
+                instructions = 'M';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position: [0,1], direction };
                 expect(rover.followInstructions()).toEqual(expected);
             });
 
@@ -260,7 +293,23 @@ describe("MarsRover", () => {
                 instructions = 'M';
                 input = { position, direction, instructions };
                 rover = new MarsRover(grid, input);
-                expected = { position: [0,0], direction };
+                expected = { position: [0,1], direction };
+                expect(rover.followInstructions()).toEqual(expected);
+
+                position = [1, 1];
+                direction = 'E';
+                instructions = 'M';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position: [1,1], direction };
+                expect(rover.followInstructions()).toEqual(expected);
+
+                position = [0, 1];
+                direction = 'W';
+                instructions = 'M';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position: [0,1], direction };
                 expect(rover.followInstructions()).toEqual(expected);
             });
         });
