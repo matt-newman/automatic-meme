@@ -350,7 +350,7 @@ describe("MarsRover", () => {
         it("should return the correct status values for the first rover", () => {
             position = [1, 2];
             direction = 'N';
-            instructions = 'LMLMLMLMM';
+            instructions = 'LMLMLMLMM'; // W -> 0,2 -> S -> 0,1 ->  
             input = { position, direction, instructions };
 
             let rover = new MarsRover(grid, input);

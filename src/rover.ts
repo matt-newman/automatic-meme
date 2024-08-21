@@ -13,9 +13,9 @@ export type RoverStatus = {
 
 export class MarsRover {
     private moves = {
-        "N": [0, -1],
+        "N": [0, 1],
         "E": [1, 0],
-        "S": [0, 1],
+        "S": [0, -1],
         "W": [-1, 0],
     };
 
@@ -109,7 +109,7 @@ export class MarsRover {
         // console.log( { x,y, newX, newY, currentX, currentY } );
 
         if ( newX < 0 || newY < 0 || newX > this.gridMaxWidth || newY > this.gridMaxHeight ) {
-            // console.info('move bounced off permiter', { x,y,direction, grid: this.grid });
+            console.info('move bounced off permiter', { x,y,direction, grid: this.grid });
             return;
         }
 
