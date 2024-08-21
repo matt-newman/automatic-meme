@@ -18,16 +18,15 @@ export class ParseInput {
         let rovers = [];
 
         const createRover = ( positionString: string, instructionsString: string ) => {
-            const position = positionString.split(' ');
-            const x = parseInt(position[0]);
-            const y = parseInt(position[1]);
-            const direction = position[2];
+            const pos = positionString.split(' ');
+            const coords = [pos[0], pos[1]].map(pos => parseInt(pos, 10));
+            const direction = pos[2];
     
             // TODO: check pos 1-3 exist
             // TODO: do instructions exists... does it matter?
     
             return {
-                position: { x, y, direction },
+                position: { coords, direction },
                 instructions: instructionsString,
             }
         }

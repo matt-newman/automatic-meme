@@ -1,4 +1,4 @@
-import { MarsRover, Position } from './rover';
+import { MarsRover, Position, Rover } from './rover';
 
 /*
 Test Input:
@@ -20,19 +20,26 @@ Expected Output:
 describe("MarsRover", () => {
     let program: MarsRover;
     let grid: any[] = [];
-    let position: Position = { x: 0, y: 0, direction: 'N' };
+    let position = { coords: [0, 0], direction: 'N' };
+    let instructions = 'LMLMLMLMM';
+
+    let input: Rover = { position, instructions }
 
     // beforeAll(() => {
     //     program = new MarsRover(grid, position);
     // });
 
-    describe("should do something", () => {
-        it("should do something", () => {
-            let rover = new MarsRover(grid, position);
-            const result = rover.getStatus();
-            const expected = 'output';
+    describe("instantiating", () => {
+        it("should set the various properties", () => {
+            position = { coords: [0, 0], direction: 'N' };
+            instructions = 'LMLMLMLMM';
+            input = { position, instructions };
 
-            expect(result).toBe(expected)
+            let rover = new MarsRover(grid, input);
+            const result = rover.getStatus();
+            const expected = { "instructions": "LMLMLMLMM", "position": { "coords": [0, 0], "direction": "N" } };
+
+            expect(result).toEqual(expected)
         })
     })
 })
