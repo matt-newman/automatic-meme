@@ -19,17 +19,16 @@ export class ParseInput {
 
         const createRover = ( positionString: string, instructionsString: string ) => {
             const position = positionString.split(' ');
-            const instructions = instructionsString.split('');
             const x = parseInt(position[0]);
             const y = parseInt(position[1]);
             const direction = position[2];
     
             // TODO: check pos 1-3 exist
-            // TODO: do instructions exists... does it matter
+            // TODO: do instructions exists... does it matter?
     
             return {
                 position: { x, y, direction },
-                instructions: instructions,
+                instructions: instructionsString,
             }
         }
 

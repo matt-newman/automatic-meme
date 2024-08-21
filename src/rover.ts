@@ -23,7 +23,9 @@ export class MarsRover {
         "R": 1,
     }
 
+    private currentPosition: Position = { x: 0, y: 0, direction: 'N' }; // default
     private currentDirection = '';
+    private instructions = '';
 
     private directions = ["N", "E", "S", "W"];
 
@@ -45,6 +47,13 @@ export class MarsRover {
     constructor(grid: Array<any>, input: Position) {
         // TODO: set the current grid position and orientation
         return this;
+    }
+
+    public getStatus():Rover {
+        return { 
+            position: this.currentPosition,
+            instructions: this.instructions,
+        }
     }
 
     // TODO: controls: 

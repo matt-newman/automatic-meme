@@ -1,4 +1,4 @@
-import { MarsRover } from './rover';
+import { MarsRover, Position } from './rover';
 
 /*
 Test Input:
@@ -19,14 +19,17 @@ Expected Output:
 
 describe("MarsRover", () => {
     let program: MarsRover;
+    let grid: any[] = [];
+    let position: Position = { x: 0, y: 0, direction: 'N' };
 
-    beforeAll(() => {
-        program = new MarsRover('');
-    });
+    // beforeAll(() => {
+    //     program = new MarsRover(grid, position);
+    // });
 
     describe("should do something", () => {
         it("should do something", () => {
-            const result = program.placeRover();
+            let rover = new MarsRover(grid, position);
+            const result = rover.getStatus();
             const expected = 'output';
 
             expect(result).toBe(expected)
