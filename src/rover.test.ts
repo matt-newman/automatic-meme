@@ -48,15 +48,48 @@ describe("MarsRover", () => {
         describe("turning left", () => {
             beforeEach(()=>{
                 position = [0, 0];
-                direction = 'N';
-            })
-            it("should face west after turning left from north", () => {                
                 instructions = 'L';
+            })
+            it("should face west after turning left from north", () => {        
+                direction = 'N';
                 input = { position, direction, instructions };
     
                 let rover = new MarsRover(grid, input);
-                const result = rover.followInstructions(); // returns getStatus() at the end            
+                const result = rover.followInstructions();
                 const expected = { "position": [0, 0], "direction": "W" };
+    
+                expect(result).toEqual(expected);
+            });
+
+            it("should face north after turning left from east", () => {           
+                direction = 'E';
+                input = { position, direction, instructions };
+    
+                let rover = new MarsRover(grid, input);
+                const result = rover.followInstructions();
+                const expected = { "position": [0, 0], "direction": "N" };
+    
+                expect(result).toEqual(expected);
+            });
+
+            it("should face south after turning left from west", () => {           
+                direction = 'W';
+                input = { position, direction, instructions };
+    
+                let rover = new MarsRover(grid, input);
+                const result = rover.followInstructions();
+                const expected = { "position": [0, 0], "direction": "S" };
+    
+                expect(result).toEqual(expected);
+            });
+
+            it("should face east after turning left from south", () => {           
+                direction = 'S';
+                input = { position, direction, instructions };
+    
+                let rover = new MarsRover(grid, input);
+                const result = rover.followInstructions();
+                const expected = { "position": [0, 0], "direction": "E" };
     
                 expect(result).toEqual(expected);
             });
