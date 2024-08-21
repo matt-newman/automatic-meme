@@ -24,12 +24,16 @@ export class MarsRover {
         "R": 1,
     }
 
-    private grid = [];
+    private grid: any[];
     private currentPosition: Coord = [-1, -1]; // default
     private currentDirection = ''; // default
     private instructions = ''; 
 
     private directions = ["N", "E", "S", "W"];
+
+    private setGrid( grid: Array<any> ) {
+        this.grid = grid;
+    }
 
     private setPosition( coord: Coord ) {
         const [x,y] = coord;
@@ -39,17 +43,57 @@ export class MarsRover {
     }
 
     private setDirection( direction: string ) {
-        // TODO: check is valid direction
+        if ( !this.directions.includes( direction ) ) {
+            console.warn('not a valid direction', { direction } );
+            return this.currentDirection;
+        }
+        
         this.currentDirection = direction;
+        return this.currentDirection;
     }
 
     private setInstructions( instructions: string ) {
         this.instructions = instructions;
     }
 
+    // TODO: could make this public for testing, but really its class internals
+    private steer( direction: string ) {
+        if ( !Object.keys(this.steering).includes( direction ) ) {
+            console.warn('not a valid steering direction');
+            return this.currentDirection;
+        }
+
+        let directionIndex = this.directions.indexOf(this.currentDirection);
+        let maxDirectionIndex = this.directions.length - 1;
+
+        if ( direction === 'L' ) {
+            directionIndex--;
+
+            if ( directionIndex < 0 ) {
+                directionIndex = maxDirectionIndex;
+            }
+        } else {
+            directionIndex++;
+
+            if ( directionIndex > maxDirectionIndex ) {
+                directionIndex = 0;
+            }
+        }
+
+        const newDirection = this.directions[directionIndex];
+
+        this.setDirection(newDirection);
+    }
+
+    // TODO: could make this public for testing, but really its class internals
+    private move() {
+        // TODO: implement
+    }
+
     constructor(grid: Array<any>, rover: Rover) {
         const { position, direction, instructions } = rover;
         
+        this.setGrid(grid);
         this.setPosition(position);
         this.setDirection(direction);
         this.setInstructions(instructions);
@@ -64,7 +108,16 @@ export class MarsRover {
     }
 
     public followInstructions():RoverStatus {
+        const instructions = this.instructions.split('');
 
+        instructions.forEach((instruction, index) => {
+            if ( instruction === 'M' ) {
+                this.move();
+            } else {
+                // is steering...
+                this.steer( instruction );
+            }
+        })
 
         return this.getStatus();
     }
@@ -91,22 +144,4 @@ export class MarsRover {
     // the first one has finished moving.
 
     // The output for each rover should be its final coordinates and heading.
-
-    /*
-    Test Input:
-    ```
-    5 5
-    1 2 N
-    LMLMLMLMM
-    3 3 E
-    MMRMMRMRRM
-    ```
-
-    Expected Output:
-    ```
-    1 3 N
-    5 1 E
-    ```
-    */
-
 }

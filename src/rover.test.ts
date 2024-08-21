@@ -45,17 +45,21 @@ describe("MarsRover", () => {
     });
 
     describe("followInstructions", () => {
-        it("should return the correct status values for the rover", () => {
-            position = [0, 0];
-            direction = 'N';
-            instructions = 'LMLMLMLMM';
-            input = { position, direction, instructions };
-
-            let rover = new MarsRover(grid, input);
-            const result = rover.followInstructions(); // returns getStatus() at the end            
-            const expected = { "position": [0, 0], "direction": "N" };
-
-            expect(result).toEqual(expected);
+        describe("turning left", () => {
+            beforeEach(()=>{
+                position = [0, 0];
+                direction = 'N';
+            })
+            it("should face west after turning left from north", () => {                
+                instructions = 'L';
+                input = { position, direction, instructions };
+    
+                let rover = new MarsRover(grid, input);
+                const result = rover.followInstructions(); // returns getStatus() at the end            
+                const expected = { "position": [0, 0], "direction": "W" };
+    
+                expect(result).toEqual(expected);
+            });
         });
     });
 })
