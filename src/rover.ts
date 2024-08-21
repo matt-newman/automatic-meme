@@ -26,14 +26,14 @@ export class MarsRover {
         // then move in the current direction
     }
 
+    private placeRover() {
+        return '';
+    }
+
     constructor(input: string) {
         // parse the input
 
         return this;
-    }
-
-    public placeRover() {
-
     }
 
     // TODO: controls: 
