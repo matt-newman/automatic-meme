@@ -206,5 +206,25 @@ describe("MarsRover", () => {
                 expect(rover.followInstructions()).toEqual(expected);
             });
         });
+
+        describe("moving", () => {
+            let rover;
+
+            beforeEach(() => {
+                grid = [[,],[,]];
+                position = [0, 0];
+                direction = 'N';
+            })
+
+            it("should move be able to move up 1 square when going north", () => {
+                let expected;
+                direction = 'N';
+                instructions = 'M';
+                input = { position, direction, instructions };
+                rover = new MarsRover(grid, input);
+                expected = { position: [0,1], direction };
+                expect(rover.followInstructions()).toEqual(expected);
+            });
+        });
     });
 })
