@@ -24,10 +24,12 @@ describe("MarsRover", () => {
         program = new MarsRover('');
     });
 
-    xit("should do something", () => {
-        const result = program.placeRover();
-        const expected = 'output';
+    describe("should do something", () => {
+        it("should do something", () => {
+            const result = program.placeRover();
+            const expected = 'output';
 
-        expect(result).toBe(expected)
+            expect(result).toBe(expected)
+        })
     })
 })

@@ -1,3 +1,15 @@
+
+export type Position = {
+    x: number;
+    y: number;
+    direction: string;
+}
+
+export type Rover = {
+    position: Position;
+    instructions: string;
+}
+
 export class MarsRover {
     private moves = {
         "N": [0, -1],
@@ -11,7 +23,7 @@ export class MarsRover {
         "R": 1,
     }
 
-    private currentDirection = 'N';
+    private currentDirection = '';
 
     private directions = ["N", "E", "S", "W"];
 
@@ -30,9 +42,8 @@ export class MarsRover {
         return '';
     }
 
-    constructor(input: string) {
-        // parse the input
-
+    constructor(grid: Array<any>, input: Position) {
+        // TODO: set the current grid position and orientation
         return this;
     }
 
