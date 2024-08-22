@@ -1,17 +1,29 @@
-type Coord = [number, number];
+export type Coord = [number, number];
+export type CompassHeading = 'N' | 'E' | 'S' | 'W';
+export type SteeringDirection = 'L' | 'R';
 
-export type Rover = {
+export type RoverArgs = {
     position: Coord;
-    direction: string;
-    instructions: string;
+    heading: string;
+    xMax?: number;
+    yMax?: number;
 }
 
 export type RoverStatus = {
     position: Coord;
-    direction: string;
+    heading: CompassHeading;
 }
 
 export class MarsRover {
+    constructor(rover: RoverArgs, xMax = 0, yMax = (xMax || 0)) {
+        const { heading, position } = rover;
+        // console.log( 'setup', { position, heading, xMax, yMax } );
+
+        this.setBoundry(xMax, yMax);
+        this.setHeading(heading as CompassHeading);
+        this.setPosition(position);
+    }
+
     private moves = {
         "N": [0, 1],
         "E": [1, 0],
@@ -19,157 +31,106 @@ export class MarsRover {
         "W": [-1, 0],
     };
 
-    private steering = {
-        "L": -1,
-        "R": 1,
-    }
+    private compassHeadings = ["N", "E", "S", "W"];
+    private maxHeadingIndex = this.compassHeadings.length - 1;
 
-    private grid!: any[];
-    private gridMaxWidth!: number;
-    private gridMaxHeight!: number;
-    private currentPosition: Coord = [0,0]; // default
-    private currentDirection = ''; // default
-    private instructions = ''; 
+    private xMax: number = 0;
+    private yMax: number = 0;
+    private currentPosition: Coord = [0, 0]; // default
+    private currentHeading: CompassHeading = 'N'; // default
 
-    private directions = ["N", "E", "S", "W"];
-
-    private setGrid( grid: Array<any> ) {
-        // TODO: check is array with no-zero length...
-        this.gridMaxWidth = grid[0].length;
-        this.gridMaxHeight = grid.length;
-        this.grid = grid;
-    }
-
-    private setPosition( coord: Coord ) {
-        const [x,y] = coord;
-
-        if ( x < 0 || y < 0 || x > this.gridMaxWidth || y > this.gridMaxHeight ) {
-            // console.warn('trying to set position outside of grid', { grid: this.grid, coord } );
+    private setBoundry(xMax = 0, yMax = (xMax || 0)): void {
+        if (xMax < 0 || yMax < 0) {
+            console.warn('boundry cannot have negative size', { xMax, yMax });
             return;
         }
 
-        this.currentPosition[0] = x;
-        this.currentPosition[1] = y;
+        this.xMax = xMax;
+        this.yMax = yMax;
     }
 
-    private setDirection( direction: string ) {
-        if ( !this.directions.includes( direction ) ) {
-            console.warn('not a valid direction', { direction } );
-            return this.currentDirection;
+    private setPosition(coord: Coord) {
+        const xMax = this.xMax;
+        const yMax = this.yMax;
+        const [x, y] = coord;
+
+        if (x < 0 || y < 0 || x > xMax || y > yMax) {
+            // console.warn('trying to set position outside of grid', { xMax, yMax, coord } );
+            return;
         }
-        
-        this.currentDirection = direction;
-        return this.currentDirection;
+
+        this.currentPosition = [x, y];
     }
 
-    private setInstructions( instructions: string ) {
-        this.instructions = instructions;
+    private setHeading(heading: CompassHeading): CompassHeading {
+        if (!this.compassHeadings.includes(heading)) {
+            console.warn('not a valid heading', { heading });
+        }
+        this.currentHeading = heading;
+        return this.currentHeading;
     }
 
     // TODO: could make this public for testing, but really its class internals
-    private steer( direction: string ) {
-        if ( !Object.keys(this.steering).includes( direction ) ) {
-            console.warn('not a valid steering direction');
-            return this.currentDirection;
-        }
+    private steer(direction: SteeringDirection) {
+        let headingIndex = this.compassHeadings.indexOf(this.currentHeading);
 
-        let directionIndex = this.directions.indexOf(this.currentDirection);
-        let maxDirectionIndex = this.directions.length - 1;
+        if (direction === 'L') {
+            headingIndex--;
 
-        if ( direction === 'L' ) {
-            directionIndex--;
-
-            if ( directionIndex < 0 ) {
-                directionIndex = maxDirectionIndex;
+            if (headingIndex < 0) {
+                headingIndex = this.maxHeadingIndex;
             }
         } else {
-            directionIndex++;
+            // must be right ( 'R' )
+            headingIndex++;
 
-            if ( directionIndex > maxDirectionIndex ) {
-                directionIndex = 0;
+            if (headingIndex > this.maxHeadingIndex) {
+                headingIndex = 0;
             }
         }
 
-        const newDirection = this.directions[directionIndex];
+        const newHeading = this.compassHeadings[headingIndex] as CompassHeading;
 
-        this.setDirection(newDirection);
+        this.setHeading(newHeading);
     }
 
     // TODO: could make this public for testing, but really its class internals
     private move() {
-        const moves = this.moves;
-        const direction = this.currentDirection;
         const [currentX, currentY] = this.currentPosition;
-        // todo: go in current direction 1 square
-        const [x,y] = moves[direction as keyof typeof moves]; // ludicrous type gymnastics imo
-
+        const [x, y] = this.moves[this.currentHeading];
         const newX = currentX + x;
         const newY = currentY + y;
 
         // console.log( { x,y, newX, newY, currentX, currentY } );
 
-        if ( newX < 0 || newY < 0 || newX > this.gridMaxWidth || newY > this.gridMaxHeight ) {
-            // console.info('move bounced off permiter', { x, y, direction, newX, newY, grid: this.grid });
+        this.setPosition([newX, newY]);
+    }
+
+    public runInstructions(instructions: string) {
+        // check instruction set is valid:
+        const regexForValidInstruction = /^[LRM]*$/; // made of steering and moving
+        if (!regexForValidInstruction.test(instructions)) {
+            console.warn('invalid instruction set', { instructions });
             return;
         }
 
-        this.setPosition([newX,newY]);
-    }
-
-    constructor(grid: Array<any>, rover: Rover) {
-        const { position, direction, instructions } = rover;
-
-        // console.log( 'setup', { grid, position, direction, instructions } );
-        
-        this.setGrid(grid);
-        this.setPosition(position);
-        this.setDirection(direction);
-        this.setInstructions(instructions);
-        return this;
-    }
-
-    public getStatus():RoverStatus {
-        return { 
-            position: this.currentPosition,
-            direction: this.currentDirection,
-        }
-    }
-
-    public followInstructions():RoverStatus {
-        const instructions = this.instructions.split('');
-
-        instructions.forEach((instruction, index) => {
-            if ( instruction === 'M' ) {
+        const arrInstructions = instructions.split('');
+        arrInstructions.forEach((instruction) => {
+            if (instruction === 'M') {
                 this.move();
             } else {
                 // is steering...
-                this.steer( instruction );
+                this.steer(instruction as SteeringDirection);
             }
-        })
+        });
 
         return this.getStatus();
     }
 
-    // TODO: controls: 
-    // `L`, `R` and `M` -> left, right and move forward 1 space (at current heading)
-    // Headings: N,E,S,W
-    // Assume that the square directly North from (x, y) is (x, y+1).
-
-    // The first line of input is the upper-right coordinates
-    // the lower-left coordinates are assumed to be 0,0
-
-    // Each rover has two lines of input:
-    // The first line gives the rover's position, 
-    /* 
-    The position is made up of two integers and a letter separated by spaces, 
-    corresponding to the x and y coordinates and the rover's orientation.
-    */
-
-    //  the second line is a series of instructions telling the rover how to explore the plateau
-
-    // Each rover will be finished sequentially, 
-    // which means that the second rover won`t start to move until
-    // the first one has finished moving.
-
-    // The output for each rover should be its final coordinates and heading.
+    public getStatus(): RoverStatus {
+        return {
+            position: this.currentPosition,
+            heading: this.currentHeading,
+        }
+    }
 }

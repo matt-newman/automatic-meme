@@ -1,19 +1,18 @@
-import { ParseInput } from "./parseInput";
-import { MarsRover, Rover } from "./rover";
+import { ParseInput, ParsedRoverOutput } from "./parseInput";
+import { MarsRover, RoverStatus } from "./rover";
 
 // TODO: run the program, given the input
 export const runProgram = (input: string) => {
     const data = ParseInput.process(input);
-    const { grid, rovers } = data;
+    const { width, height, rovers } = data as any;
+    const xMax = width, yMax = height;
 
-    const finalPositions = rovers.map((rover: Rover) => { 
-        const current = new MarsRover(grid, rover);
-        const result = current.followInstructions();
-        return `${result.position.join(' ')} ${result.direction}`;
+    const finalPositions = rovers.map((rover: ParsedRoverOutput) => {
+        const { instructions } = rover;
+        const current = new MarsRover(rover, xMax, yMax);
+        const result = current.runInstructions(instructions) as RoverStatus;
+        return `${result.position.join(' ')} ${result.heading}`;
     });
-
-    console.log( { result: finalPositions.join(`
-`) } )
 
     return finalPositions.join(`
 `);
